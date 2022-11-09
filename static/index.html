@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link href="https://fonts.googleapis.com/css?family=Bitter:400,700&display=swap&subset=latin-ext" rel="stylesheet" />
+  <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css" />
+  <link rel="stylesheet" href="./css/main.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+  <script src="https://kit.fontawesome.com/cbb1bed329.js" crossorigin="anonymous"></script>
+  <title>Mini Player</title>
+</head>
+
+<body>
+  <form class="search-container" autocomplete="off">
+    <input class="search-box" id="search-box" type="text" name="q" required autofocus="autofocus">
+    <button type="submit" class="search-icon"> 
+      <i class="fa-solid fa-magnifying-glass icon-m"></i>
+    </button>
+  </form>
+
+
+
+  <div class="content hide">
+    <div class="wrapper" id="app">
+      <div class="player">
+        <div class="player__top">
+          <div class="player-cover">
+            <transition-group :name="transitionName">
+              <div class="player-cover__item" v-if="$index === currentTrackIndex"
+                :style="{ backgroundImage: `url(${track.cover})` }" v-for="(track, $index) in tracks" :key="$index">
+              </div>
+            </transition-group>
+          </div>
+          <div class="player-controls">
+            <div class="player-controls__item -favorite" :class="{ active : mp3 }" @click="favorite('mp3')">
+              <div class="textlogo">.mp3</div>
+            </div>
+            <div class="player-controls__item -favorite" :class="{ active : wav }" @click="favorite('wav')">
+              <div class="textlogo" style="font-size: 20px; margin-bottom: 1%;">.wav</div>
+            </div>
+            <!-- <div class="player-controls__item" @click="nextTrack">
+              <svg class="icon">
+                <use xlink:href="#icon-next"></use>
+              </svg>
+            </div> -->
+            <a :href="currentTrack.url" target="_blank" class="player-controls__item">
+              <svg class="icon">
+                <use xlink:href="#icon-link"></use>
+              </svg>
+            </a>
+            <div class="player-controls__item" @click="fullscreen">
+              <svg class="icon">
+                <transition name="fade">
+                  <use key=1 xlink:href="#icon-smallscreen" v-if="isFullScreen"></use>
+                  <use key=2 xlink:href="#icon-fullscreen" v-else></use>
+                </transition>
+              </svg>
+            </div>
+            <div class="player-controls__item -xl js-play" @click="buttonpress">
+              <svg class="icon">
+                <transition name="fade">
+                  <use key=5 xlink:href="#icon-pause" v-if="isTimerPlaying"></use>
+                  <use key=6 xlink:href="#icon-play" v-else></use>
+                </transition>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="progress" ref="progress">
+          <div class="progress__top">
+            <div class="album-info" v-if="currentTrack">
+              <div class="album-info__name">{{ currentTrack.artist}}</div>
+              <div class="album-info__track">{{ currentTrack.name}}</div>
+            </div>
+          </div>
+          <div :class="classes"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <svg xmlns="http://www.w3.org/2000/svg" hidden xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+      <symbol id="icon-pause" viewBox="0 0 32 32">
+        <title>icon-pause</title>
+        <path
+          d="M16 0.32c-8.64 0-15.68 7.040-15.68 15.68s7.040 15.68 15.68 15.68 15.68-7.040 15.68-15.68-7.040-15.68-15.68-15.68zM16 29.216c-7.296 0-13.216-5.92-13.216-13.216s5.92-13.216 13.216-13.216 13.216 5.92 13.216 13.216-5.92 13.216-13.216 13.216z">
+        </path>
+        <path
+          d="M16 32c-8.832 0-16-7.168-16-16s7.168-16 16-16 16 7.168 16 16-7.168 16-16 16zM16 0.672c-8.448 0-15.328 6.88-15.328 15.328s6.88 15.328 15.328 15.328c8.448 0 15.328-6.88 15.328-15.328s-6.88-15.328-15.328-15.328zM16 29.568c-7.488 0-13.568-6.080-13.568-13.568s6.080-13.568 13.568-13.568c7.488 0 13.568 6.080 13.568 13.568s-6.080 13.568-13.568 13.568zM16 3.104c-7.104 0-12.896 5.792-12.896 12.896s5.792 12.896 12.896 12.896c7.104 0 12.896-5.792 12.896-12.896s-5.792-12.896-12.896-12.896z">
+        </path>
+        <path
+          d="M12.16 22.336v0c-0.896 0-1.6-0.704-1.6-1.6v-9.472c0-0.896 0.704-1.6 1.6-1.6v0c0.896 0 1.6 0.704 1.6 1.6v9.504c0 0.864-0.704 1.568-1.6 1.568z">
+        </path>
+        <path
+          d="M19.84 22.336v0c-0.896 0-1.6-0.704-1.6-1.6v-9.472c0-0.896 0.704-1.6 1.6-1.6v0c0.896 0 1.6 0.704 1.6 1.6v9.504c0 0.864-0.704 1.568-1.6 1.568z">
+        </path>
+      </symbol>
+      <symbol id="icon-play" viewBox="0 0 32 32">
+        <title>icon-play</title>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"
+          stroke-linecap="round" stroke-linejoin="round" class="feather feather-download">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+      </symbol>
+      <symbol id="icon-link" viewBox="0 0 540 540" stroke-width="2.3">
+        <title>link</title>
+        <path
+          d="M507.5,148.9L368.9,4.9c-4.5-4.7-11.5-6.2-17.5-3.8c-6.1,2.5-10,8.3-10,14.8v69.3H336c-114.7,0-208,93.3-208,208v32c0,7.4,5.2,13.6,12.5,15.3c1.2,0.3,2.3,0.4,3.5,0.4c6.1,0,11.8-3.5,14.6-9.1c30-60,90.3-97.3,157.4-97.3h25.3V304c0,6.5,4,12.4,10,14.8c6,2.4,13,1,17.5-3.8l138.7-144C513.5,164.9,513.5,155.1,507.5,148.9z" />
+        <path
+          d="M448,512H64c-35.3,0-64-28.7-64-64V149.3c0-35.3,28.7-64,64-64h64c11.8,0,21.3,9.6,21.3,21.3S139.8,128,128,128H64c-11.8,0-21.3,9.6-21.3,21.3V448c0,11.8,9.6,21.3,21.3,21.3h384c11.8,0,21.3-9.6,21.3-21.3V277.3c0-11.8,9.5-21.3,21.3-21.3s21.3,9.6,21.3,21.3V448C512,483.3,483.3,512,448,512z" />
+      </symbol>
+      <symbol id="icon-fullscreen" viewBox="0 0 24 24" stroke-width="0.5">
+        <title>fullscreen</title>
+        <path
+          d="M3,15 L3.11662113,15.0067277 C3.57570299,15.0600494 3.93995063,15.424297 3.99327227,15.8833789 L4,16 L4,20 L8,20 L8.11662113,20.0067277 C8.61395981,20.0644928 9,20.4871642 9,21 C9,21.5128358 8.61395981,21.9355072 8.11662113,21.9932723 L8,22 L3,22 L2.88337887,21.9932723 C2.42429701,21.9399506 2.06004937,21.575703 2.00672773,21.1166211 L2,21 L2,16 L2.00672773,15.8833789 C2.06004937,15.424297 2.42429701,15.0600494 2.88337887,15.0067277 L3,15 Z M21,15 C21.5128358,15 21.9355072,15.3860402 21.9932723,15.8833789 L22,16 L22,21 C22,21.5128358 21.6139598,21.9355072 21.1166211,21.9932723 L21,22 L16,22 C15.4477153,22 15,21.5522847 15,21 C15,20.4871642 15.3860402,20.0644928 15.8833789,20.0067277 L16,20 L20,20 L20,16 C20,15.4871642 20.3860402,15.0644928 20.8833789,15.0067277 L21,15 Z M8,2 C8.55228475,2 9,2.44771525 9,3 C9,3.51283584 8.61395981,3.93550716 8.11662113,3.99327227 L8,4 L4,4 L4,8 C4,8.51283584 3.61395981,8.93550716 3.11662113,8.99327227 L3,9 C2.48716416,9 2.06449284,8.61395981 2.00672773,8.11662113 L2,8 L2,3 C2,2.48716416 2.38604019,2.06449284 2.88337887,2.00672773 L3,2 L8,2 Z M21,2 L21.1166211,2.00672773 C21.575703,2.06004937 21.9399506,2.42429701 21.9932723,2.88337887 L22,3 L22,8 L21.9932723,8.11662113 C21.9399506,8.57570299 21.575703,8.93995063 21.1166211,8.99327227 L21,9 L20.8833789,8.99327227 C20.424297,8.93995063 20.0600494,8.57570299 20.0067277,8.11662113 L20,8 L20,4 L16,4 L15.8833789,3.99327227 C15.3860402,3.93550716 15,3.51283584 15,3 C15,2.48716416 15.3860402,2.06449284 15.8833789,2.00672773 L16,2 L21,2 Z" />
+      </symbol>
+      <symbol id="icon-smallscreen" viewBox="0 0 24 24" stroke-width="0.6">
+        <title>smallscreen</title>
+        <path
+          d="M21,15 C21.5522847,15 22,15.4477153 22,16 C22,16.5128358 21.6139598,16.9355072 21.1166211,16.9932723 L21,17 L17,17 L17,21 C17,21.5128358 16.6139598,21.9355072 16.1166211,21.9932723 L16,22 C15.4871642,22 15.0644928,21.6139598 15.0067277,21.1166211 L15,21 L15,16 C15,15.4871642 15.3860402,15.0644928 15.8833789,15.0067277 L16,15 L21,15 Z M8,15 L8.11662113,15.0067277 C8.57570299,15.0600494 8.93995063,15.424297 8.99327227,15.8833789 L9,16 L9,21 L8.99327227,21.1166211 C8.93995063,21.575703 8.57570299,21.9399506 8.11662113,21.9932723 L8,22 L7.88337887,21.9932723 C7.42429701,21.9399506 7.06004937,21.575703 7.00672773,21.1166211 L7,21 L7,17 L3,17 L2.88337887,16.9932723 C2.38604019,16.9355072 2,16.5128358 2,16 C2,15.4871642 2.38604019,15.0644928 2.88337887,15.0067277 L3,15 L8,15 Z M16,2 L16.1166211,2.00672773 C16.575703,2.06004937 16.9399506,2.42429701 16.9932723,2.88337887 L17,3 L17,7 L21,7 L21.1166211,7.00672773 C21.6139598,7.06449284 22,7.48716416 22,8 C22,8.51283584 21.6139598,8.93550716 21.1166211,8.99327227 L21,9 L16,9 L15.8833789,8.99327227 C15.424297,8.93995063 15.0600494,8.57570299 15.0067277,8.11662113 L15,8 L15,3 L15.0067277,2.88337887 C15.0600494,2.42429701 15.424297,2.06004937 15.8833789,2.00672773 L16,2 Z M8,2 C8.51283584,2 8.93550716,2.38604019 8.99327227,2.88337887 L9,3 L9,8 C9,8.51283584 8.61395981,8.93550716 8.11662113,8.99327227 L8,9 L3,9 C2.44771525,9 2,8.55228475 2,8 C2,7.48716416 2.38604019,7.06449284 2.88337887,7.00672773 L3,7 L7,7 L7,3 C7,2.48716416 7.38604019,2.06449284 7.88337887,2.00672773 L8,2 Z" />
+      </symbol>
+    </defs>
+  </svg>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+  <script src="./scripts/script.js"></script>
+</body>
+
+</html>
