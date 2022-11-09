@@ -76,6 +76,11 @@ form.addEventListener("submit", function (event) {
           windowToggle(name) {
             this.classes = name;
           },
+          download(quality){
+            var name = d.SongName
+            location.href = `http://localhost:3000/download?i=38t50grgWSQ&ext=${this.audioformat}&q=${quality}&n=${name}`;
+            
+          },
           play() {
             if (this.audio.paused) {
               this.audio.play();
@@ -99,14 +104,17 @@ form.addEventListener("submit", function (event) {
             }
           },
           favorite(format) {
-            if (format == "mp3") {
+            if (format == 'mp3'){
               this.mp3 = true;
               this.wav = false;
-            } else {
+              this.audioformat = "mp3";
+            }
+            else {
               this.mp3 = false;
               this.wav = true;
+              this.audioformat = "wav";
             }
-          },
+          }
         },
         created() {
           let vm = this;

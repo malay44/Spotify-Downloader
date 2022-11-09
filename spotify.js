@@ -7,6 +7,9 @@ import path from "path";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import rateLimit from 'express-rate-limit';
+import dotenv from 'dotenv';
+dotenv.config();
+
 // import axios from 'axios';
 // import api from './client_secret.json' assert {type: 'json'}
 
@@ -29,8 +32,10 @@ app.use(limiter)
 app.set('trust proxy', 1)
 
 
-const client_id = "543638cd032a4509acf311d883bc66c7";
-const client_secret = "60191bdc61744b8189ebb7330e9c869f";
+const client_id = process.env.CLIENT_ID;
+const client_secret = process.env.CLIENT_SECRET;
+console.log(client_id);
+console.log(client_secret);
 var AccessToken;
 
 

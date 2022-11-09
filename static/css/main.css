@@ -580,6 +580,7 @@ body {
 
 .minimize {
   height: 0px;
+  color: transparent;
   animation-name: animate-minimize;
   animation-duration: 0.4s;
   width: 70%;

@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="./css/main.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
   <script src="https://kit.fontawesome.com/cbb1bed329.js" crossorigin="anonymous"></script>
-  <title>Mini Player</title>
+  <title>Spotify Downloader</title>
 </head>
 
 <body>
@@ -29,9 +29,7 @@
         <div class="player__top">
           <div class="player-cover">
             <transition-group :name="transitionName">
-              <div class="player-cover__item" v-if="$index === currentTrackIndex"
-                :style="{ backgroundImage: `url(${track.cover})` }" v-for="(track, $index) in tracks" :key="$index">
-              </div>
+                <div class="player-cover__item" v-if="$index === currentTrackIndex" :style="{ backgroundImage: `url(${track.cover})` }"  v-for="(track, $index) in tracks" :key="$index"></div>
             </transition-group>
           </div>
           <div class="player-controls">
@@ -53,17 +51,17 @@
             </a>
             <div class="player-controls__item" @click="fullscreen">
               <svg class="icon">
-                <transition name="fade">
-                  <use key=1 xlink:href="#icon-smallscreen" v-if="isFullScreen"></use>
-                  <use key=2 xlink:href="#icon-fullscreen" v-else></use>
-                </transition>
+              <transition name="fade">
+                <use key=1 xlink:href="#icon-smallscreen" v-if="isFullScreen"></use>
+                <use key=2 xlink:href="#icon-fullscreen" v-else></use>
+              </transition>
               </svg>
             </div>
             <div class="player-controls__item -xl js-play" @click="buttonpress">
               <svg class="icon">
                 <transition name="fade">
-                  <use key=5 xlink:href="#icon-pause" v-if="isTimerPlaying"></use>
-                  <use key=6 xlink:href="#icon-play" v-else></use>
+                <use key=5 xlink:href="#icon-pause" v-if="isTimerPlaying"></use>
+                <use key=6 xlink:href="#icon-play" v-else></use>
                 </transition>
               </svg>
             </div>
@@ -76,7 +74,9 @@
               <div class="album-info__track">{{ currentTrack.name}}</div>
             </div>
           </div>
-          <div :class="classes"></div>
+            <div :class="classes" @click="download('lowest')"> lowest</div>
+            <div :class="classes" @click="download('highest')"> highest</div>
+        </div>
         </div>
       </div>
     </div>
