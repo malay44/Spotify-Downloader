@@ -1,4 +1,5 @@
 # Spotify-Downloader
+This GitHub repository contains a tool that allows users to download music from Spotify by providing a link of the track. The tool is implemented in Javascript and utilizes the Spotify Web API. With this tool, users can easily save their favorite music from Spotify for offline listening, or for use in other projects. The repository also includes instructions on how to use the tool, as well as a few examples to get started.
 
 ## To run code on your local system
 `
