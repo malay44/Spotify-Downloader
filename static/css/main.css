@@ -22,6 +22,7 @@ body {
   /* width: 470px; */
   height: 60px;
   display: flex;
+  color: #fff;
   justify-content: center;
   /* flex-wrap: nowrap; */
   align-items: center;
@@ -40,6 +41,7 @@ body {
   border: none;
   cursor: pointer;
   background: #2D5384;
+  color: #fff;
   /* display: -webkit-box; */
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -73,12 +75,13 @@ body {
 .search-icon-click{
   position: relative;
   left: -61px;
+  color: #fff;
   border-radius: 50px;
 
 }
 
 .search-icon:hover {
-  color: black;
+  color: rgb(255, 255, 255);
 }
 
 
@@ -106,19 +109,18 @@ body {
   text-indent: 16px;
   /* padding-left: 15px; */
   cursor: text;
-  border-radius: auto;
-  color: black;
+  border-radius: auto;  
+  color: rgb(255, 255, 255);
   /* box-shadow: 0 0 0 1px rgb(91, 170, 255); */
 }
 
 .search-container:focus-within .search-icon {
   /* background: #3765a1; */
-  color: black;
+  color: rgb(229, 229, 229);
 }
 
 .search-box:not(:focus) {
   text-indent: 16px;
-
 }
 
 .go-up {
